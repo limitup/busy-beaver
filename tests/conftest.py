@@ -17,7 +17,7 @@ def vcr_config():
     return {"filter_headers": [("authorization", "DUMMY")]}
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def app():
     """Session-wide test `Flask` application.
 
@@ -31,14 +31,14 @@ def app():
     ctx.pop()
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def client(app):
     """Create flask test client where we can trigger test requests to app"""
     client = app.test_client()
     yield client
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def db(app):
     """Session-wide test database."""
     _db.app = app
@@ -69,6 +69,6 @@ def kv_store(session):
     return KeyValueStoreAdapter()
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def rq(app):
     yield _rq
